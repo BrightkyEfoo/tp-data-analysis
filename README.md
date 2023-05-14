@@ -8,6 +8,12 @@ tapez la commande suivante dans les deux terminaux
 
 ### `npm i`
 
+Puis tapez cette commande pour lancer le projet.\
+
+
+### `npm run start`
+
+
 Lancez l'application dans votre navigateur.\
 Ouvrez [http://localhost:3000](http://localhost:3000) pour l'appli.
 
