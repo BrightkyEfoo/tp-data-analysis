@@ -47,7 +47,7 @@ if k > 2:
     print(f"k theorique = {k_theorique}")
     accepte = k_observe <= k_theorique
 
-    tempstr = "accepte" if accepte else "rejetee"
+    tempstr = "acceptee" if accepte else "rejetee"
 
     print(f"Au risque de se tromper de {seuil_signification*100} %, l'on peut dire que l'hypothese H0 est {tempstr}")
     # Data to be written

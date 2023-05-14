@@ -17,3 +17,6 @@ class Echantillon:
 
     def affiche(self):
         print(self.elements)
+
+
+# if __name__ == "Echantillons"

@@ -19,12 +19,18 @@ app
 app.get('/', (req, res) => {
   res.json('bienvenue sur le testeur de variances');
 });
+
+
+
 app.post('/test', (req, res) => {
   const echantillons = req.body.echantillons;
   const seuil = req.body.seuil || 0.05
 
   if (!echantillons) {
-    return res.status(400).json({ msg: 'erreur de traitement' });
+    return res.status(400).json({ msg: 'erreur de traitement veuillez fournir les echantillons' });
+  }
+  if(echantillons.length === 1){
+    return res.status(400).json({msg : 'Vous devez fournir au moins deux echantillons'})
   }
   console.log('echantillons', echantillons);
   fs.writeFile('shared/tmp.json', JSON.stringify({echantillons , seuil}), err => {
