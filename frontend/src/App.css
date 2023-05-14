@@ -40,8 +40,8 @@
   }
 }
 
-.echantillon-container,
-.an-echan {
+
+.echantillon-container , .an-echan{
   margin: 8px;
 }
 
@@ -61,30 +61,18 @@
 
 .echantillon-container input {
   width: 30px;
-  margin: 2px;
+  margin : 2px;
   border-width: 0 0 1px 0;
   padding: 5px;
   transition: all ease 250ms;
 }
 
-.echantillon-container input:focus-visible {
-  outline: none;
+.echantillon-container input:focus-visible{
+  outline : none;
   border-width: 0 0 2px 0;
   border-color: blue;
-}
+
+} 
 /* .an-echan > button {
   justify-self: flex-end;
 } */
-
-.Loader {
-  height: 100vh;
-  width: 100vw;
-  display: grid;
-  place-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: rgb(255, 255, 255, 0.3);
-  backdrop-filter: blur(3px);
-  z-index: 1000;
-}
