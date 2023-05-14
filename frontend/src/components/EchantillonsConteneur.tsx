@@ -3,7 +3,7 @@ import Echantillon from './Echantillon';
 import { EchantillonType } from '../types/states';
 import { Button, Modal } from '@mui/material';
 import { backend_url } from '../network';
-// import HashLoader from 'react-spinners/HashLoader';
+import HashLoader from 'react-spinners/HashLoader';
 import axios from 'axios';
 
 const style: CSSProperties = {
