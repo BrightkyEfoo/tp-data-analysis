@@ -73,6 +73,10 @@
   border-color: blue;
 
 } 
+.echantillon-top-container {
+  display: flex;
+  gap: 15px;
+}
 /* .an-echan > button {
   justify-self: flex-end;
 } */

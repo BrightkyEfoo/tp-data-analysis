@@ -31,13 +31,15 @@ const EchantillonsConteneur = () => {
   const [isLoadind , setIsLoading] = useState(false)
   return (
     <div className="echantillon-container">
-      <label>seuil de signification</label>
+      <div className="echantillon-top-container"> 
+        <label>seuil de signification</label>
       <select defaultValue={0.05} onChange={e => {
         setSeuil(parseFloat(e.target.value))
       }}>
         <option value={0.025}>2.5%</option>
         <option value={0.05}>5%</option>
       </select>
+      </div>
       <h3>Echantillons</h3>
       {echantillons.map((el, i) => {
         return (
@@ -69,7 +71,7 @@ const EchantillonsConteneur = () => {
           />
         );
       })}
-      <Button
+      <button
         onClick={() => {
           setEchantillons(prev => {
             let tmp = [...prev];
@@ -83,8 +85,8 @@ const EchantillonsConteneur = () => {
         }}
       >
         Ajouter un Echantillon
-      </Button>
-      <Button
+      </button>
+      <button
         onClick={() => {
           console.log('echantillons', echantillons);
           axios
@@ -108,7 +110,7 @@ const EchantillonsConteneur = () => {
         }}
       >
         Tester
-      </Button>
+      </button>
       <Modal
         open={result.isOpen}
         onClose={()=>{
