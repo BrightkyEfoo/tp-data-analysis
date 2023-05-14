@@ -27,12 +27,12 @@ const EchantillonsConteneur = () => {
     ko: 0,
     msg: '',
   });
-  const [isLoadind, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <div className="echantillon-container">
-      <div>
+      {isLoading && <div className='Loader'>
         <HashLoader color="#4236d6" size={80} />
-      </div>
+      </div>}
       <label>seuil de signification</label>
       <select
         defaultValue={0.05}
