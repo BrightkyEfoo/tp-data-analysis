@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from 'react';
+import react, { CSSProperties, useState } from 'react';
 import Echantillon from './Echantillon';
 import { EchantillonType } from '../types/states';
 import { Button, Modal } from '@mui/material';
