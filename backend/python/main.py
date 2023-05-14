@@ -16,7 +16,7 @@ echantillons = [
 ]
 # Opening JSON file
 
-f = open('/home/brightky/Desktop/Desktop/DEV-IN3/data-analysis/backend/shared/tmp.json')
+f = open('../DEV-IN3/data-analysis/backend/shared/tmp.json')
 data = json.loads(f.read())
 
 for i in data["echantillons"]:
@@ -57,7 +57,7 @@ if k > 2:
         "msg": f"Au risque de se tromper de {seuil_signification*100} %, l'on peut dire que l'hypothese H0 est {tempstr}",
     }
 
-    with open("/home/brightky/Desktop/Desktop/DEV-IN3/data-analysis/backend/shared/result.json", "w") as outfile:
+    with open("../data-analysis/backend/shared/result.json", "w") as outfile:
         json.dump(dictionary, outfile)
 
 else:
@@ -77,6 +77,6 @@ else:
         "msg": f"Au risque de se tromper de {seuil_signification*100} %, l'on peut dire que l'hypothese H0 est {tempstr}",
     }
 
-    with open("/home/brightky/Desktop/Desktop/DEV-IN3/data-analysis/backend/shared/result.json", "w") as outfile:
+    with open("../data-analysis/backend/shared/result.json", "w") as outfile:
         json.dump(dictionary, outfile)
 

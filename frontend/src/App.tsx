@@ -7,8 +7,8 @@ function App() {
   return (
     <div className="App">
       <div>
-        <h1>Test de comparaison de variances</h1>
-        <div>
+        <h1 className="title">Test de comparaison de variances</h1>
+        <div className="main">
                    
           <EchantillonsConteneur />
           
