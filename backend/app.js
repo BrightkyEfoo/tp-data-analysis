@@ -36,7 +36,8 @@ app.post('/test', (req, res) => {
   fs.writeFile('shared/tmp.json', JSON.stringify({echantillons , seuil}), err => {
     if (err) throw err;
     console.log('les donnees entrentes ont bien ete ecrites');
-    const python = spawn('python3', ['python/main.py']);
+    const python = spawn('py', ['python/main.py']);
+    
 
     python.on('close', code => {
       console.log(`child process close all stdio with code ${code}`);

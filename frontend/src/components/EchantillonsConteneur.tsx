@@ -127,14 +127,21 @@ const EchantillonsConteneur = () => {
         // aria-describedby="modal-modal-description"
       >
         <div style={style}>
-          <h3>Conclusion et prise de decision</h3>
-          <p>{result.msg}</p>
-          <p>Valeur observee {result.ko}</p>
-          <p>Valeur theorique {result.kt}</p>
-          {/* <p></p> */}
+          <h2>Résultats du test</h2>
+          <h3>Loi de probabilité</h3>
+          <p>{echantillons.length === 2 ? "Comme il s'agit d'un test paramétrique sur la comparaison de deux variances, on utilise le test de Fisher" : "Comme il s'agit d'un test paramétrique sur la comparaison de plus de deux variances, on utilise le test de Bartlet" }</p>
+            <h3>Valeur du test</h3>
+            <p>La Valeur observée est : {result.ko}</p>
+            <h3>Point critique et zone de non rejet</h3>
+            <p><code>seuil = <em>{seuil}</em></code>  donc seuil/2={seuil/2}  .
+             La valeur critique est : {result.kt}</p>
+            <h3>Conclusion et Prise de decision</h3>
+              <p>{result.msg}</p>
         </div>
       </Modal>
     </div>
+
+    
   );
 };
 

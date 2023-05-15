@@ -102,3 +102,10 @@
   backdrop-filter: blur(3px);
   z-index: 1000;
 }
+
+code{
+  border : none;
+  background-color: aliceblue;
+  border-radius: 4px;
+  padding: 3px;
+}
