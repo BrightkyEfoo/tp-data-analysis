@@ -33,6 +33,7 @@ const EchantillonsConteneur = () => {
       {isLoading && <div className='Loader'>
         <HashLoader color="#4236d6" size={80} />
       </div>}
+      <div>
       <label>seuil de signification</label>
       <select
         defaultValue={0.05}
@@ -43,6 +44,7 @@ const EchantillonsConteneur = () => {
         <option value={0.025}>2.5%</option>
         <option value={0.05}>5%</option>
       </select>
+      </div>
       <h3>Echantillons</h3>
       {echantillons.map((el, i) => {
         return (
@@ -73,7 +75,7 @@ const EchantillonsConteneur = () => {
           />
         );
       })}
-      <Button
+      <button
         onClick={() => {
           setEchantillons(prev => {
             let tmp = [...prev];
@@ -87,8 +89,8 @@ const EchantillonsConteneur = () => {
         }}
       >
         Ajouter un Echantillon
-      </Button>
-      <Button
+      </button>
+      <button
         onClick={() => {
           setIsLoading(true);
           console.log('echantillons', echantillons);
@@ -116,7 +118,7 @@ const EchantillonsConteneur = () => {
         }}
       >
         Tester
-      </Button>
+      </button>
 
       <Modal
         open={result.isOpen}
