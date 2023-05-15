@@ -33,6 +33,7 @@ const EchantillonsConteneur = () => {
       {isLoading && <div className='Loader'>
         <HashLoader color="#4236d6" size={80} />
       </div>}
+      <div>
       <label>seuil de signification</label>
       <select
         defaultValue={0.05}
@@ -117,7 +118,7 @@ const EchantillonsConteneur = () => {
         }}
       >
         Tester
-      </Button>
+      </button>
 
       <Modal
         open={result.isOpen}
