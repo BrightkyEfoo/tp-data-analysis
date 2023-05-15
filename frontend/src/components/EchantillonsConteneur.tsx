@@ -5,6 +5,8 @@ import { Button, Modal } from '@mui/material';
 import { backend_url } from '../network';
 import HashLoader from 'react-spinners/HashLoader';
 import axios from 'axios';
+import { Toaster, toast } from 'react-hot-toast';
+import { BiError } from 'react-icons/bi';
 
 const style: CSSProperties = {
   position: 'absolute' as 'absolute',
@@ -28,24 +30,35 @@ const EchantillonsConteneur = () => {
     msg: '',
   });
   const [isLoading, setIsLoading] = useState(false);
+  const notify = (message: string, dataToast: any, type: number) => {
+    if (type < 0) {
+      toast.error(message, dataToast);
+    } else {
+      toast(message, dataToast);
+    }
+  };
   return (
     <div className="echantillon-container">
-      {isLoading && <div className='Loader'>
-        <HashLoader color="#4236d6" size={80} />
-      </div>}
-      <div>
-      <label>seuil de signification</label>
-      <select
-        defaultValue={0.05}
-        onChange={e => {
-          setSeuil(parseFloat(e.target.value));
-        }}
-      >
-        <option value={0.025}>2.5%</option>
-        <option value={0.05}>5%</option>
-      </select>
+      {isLoading && (
+        <div className="Loader">
+          <HashLoader color="#4236d6" size={80} />
+        </div>
+      )}
+      <div className="seuil-div">
+        <label>seuil de signification</label>
+        <select
+          defaultValue={0.05}
+          onChange={e => {
+            setSeuil(parseFloat(e.target.value));
+          }}
+        >
+          <option value={0.025}>2.5%</option>
+          <option value={0.05}>5%</option>
+        </select>
       </div>
       <h3>Echantillons</h3>
+      <p>Entrez ci dessous les differents echantillons</p>
+
       {echantillons.map((el, i) => {
         return (
           <Echantillon
@@ -91,35 +104,74 @@ const EchantillonsConteneur = () => {
         Ajouter un Echantillon
       </button>
       <button
+        className={echantillons.length > 1 ? 'submit' : 'disabled-submit'}
         onClick={() => {
-          setIsLoading(true);
-          console.log('echantillons', echantillons);
-          axios
-            .post<{
-              data: { kt: number; ko: number; msg: string };
-              msg: string;
-            }>(backend_url + '/test', {
-              echantillons: echantillons,
-              seuil: seuil,
-            })
-            .then(res => {
-              setResult({
-                isOpen: true,
-                kt: res.data.data.kt,
-                ko: res.data.data.ko,
-                msg: res.data.data.msg,
+          if (echantillons.length > 1) {
+            setIsLoading(true);
+            console.log('echantillons', echantillons);
+            axios
+              .post<{
+                data: { kt: number; ko: number; msg: string };
+                msg: string;
+              }>(backend_url + '/test', {
+                echantillons: echantillons,
+                seuil: seuil,
+              })
+              .then(res => {
+                setResult({
+                  isOpen: true,
+                  kt: res.data.data.kt,
+                  ko: res.data.data.ko,
+                  msg: res.data.data.msg,
+                });
+                console.log('res.data', res.data);
+              })
+              .catch(err => {
+                console.log('err', err)
+                notify(
+                  err.response.data.data.msg,
+                  {
+                    duration: 4000,
+                    position: 'top-center',
+                    style : {
+                      fontSize : 12
+                    },
+                    // Custom Icon
+                    icon: <BiError color="red" size={30} />,
+                    iconTheme: {
+                      primary: '#000',
+                      secondary: '#fff',
+                    },
+                  },
+                  -1
+                );
+                console.log('err', err);
+              })
+              .finally(() => {
+                setIsLoading(false);
               });
-              setIsLoading(false);
-              console.log('res.data', res.data);
-            })
-            .catch(err => {
-              console.log('err', err);
-            });
+          } else {
+            notify(
+              'Vous devez entrer au moins deux echantillons',
+              {
+                duration: 4000,
+                position: 'top-center',
+
+                // Custom Icon
+                icon: <BiError color="red" size={30} />,
+                iconTheme: {
+                  primary: '#000',
+                  secondary: '#fff',
+                },
+              },
+              -1
+            );
+          }
         }}
       >
         Tester
       </button>
-
+      <Toaster />
       <Modal
         open={result.isOpen}
         onClose={() => {
@@ -131,19 +183,31 @@ const EchantillonsConteneur = () => {
         <div style={style}>
           <h2>Résultats du test</h2>
           <h3>Loi de probabilité</h3>
-          <p>{echantillons.length === 2 ? "Comme il s'agit d'un test paramétrique sur la comparaison de deux variances, on utilise le test de Fisher" : "Comme il s'agit d'un test paramétrique sur la comparaison de plus de deux variances, on utilise le test de Bartlet" }</p>
-            <h3>Valeur du test</h3>
-            <p>La Valeur observée est : {result.ko}</p>
-            <h3>Point critique et zone de non rejet</h3>
-            <p><code>seuil = <em>{seuil}</em></code>  donc seuil/2={seuil/2}  .
-             La valeur critique est : {result.kt}</p>
-            <h3>Conclusion et Prise de decision</h3>
-              <p>{result.msg}</p>
+          <p>
+            {echantillons.length === 2
+              ? "Comme il s'agit d'un test paramétrique sur la comparaison de deux variances, on utilise le test de Fisher"
+              : "Comme il s'agit d'un test paramétrique sur la comparaison de plus de deux variances, on utilise le test de Bartlet"}
+          </p>
+          <h3>Valeur du test</h3>
+          <p>
+            La Valeur observée est : <code>{result.ko}</code>
+          </p>
+          <h3>Point critique et zone de non rejet</h3>
+          <p>
+            <code>
+              seuil = <em>{seuil}</em>
+            </code>
+            donc{' '}
+            <code>
+              seuil/2 = <em>{seuil / 2}</em>
+            </code>{' '}
+            . La valeur critique est : {result.kt}
+          </p>
+          <h3>Conclusion et Prise de decision</h3>
+          <p>{result.msg}</p>
         </div>
       </Modal>
     </div>
-
-    
   );
 };
 

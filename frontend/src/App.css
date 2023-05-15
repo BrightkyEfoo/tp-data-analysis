@@ -61,7 +61,7 @@
 
 .an-echan > :first-child {
   margin-right: 20px;
-  width: 25px;
+  /* width: 25px; */
   border-width: 1px;
   border-radius: 3px;
 }
@@ -108,13 +108,63 @@
   margin: 0 auto 15px;
 }
 
+.input-de-taille{
+  /* background-color: rgb(101, 101, 255); */
+  color: blue;
+  font-weight: 900;
+  width: 55px !important;
+  /* font */
+}
+
 .sub-title > h2{
   font-size: 1.3rem;
 }
 
 code{
   border : none;
-  background-color: aliceblue;
+  background-color: rgb(182, 221, 255);
   border-radius: 4px;
-  padding: 3px;
+  padding: 3px 10px;
+  margin: 5px 5px;
+}
+
+button {
+  padding: 8px 15px;
+  background-color: rgb(54, 54, 255);
+  color: white;
+  margin: 13px;
+  border : none;
+  border-radius: 6px;
+  transition: all ease 300ms;
+  cursor: pointer;
+}
+
+button:hover{
+  background-color: rgb(0, 0, 170);
+}
+
+.delete-button{
+  background-color: #ff1c1c;
+}
+
+.delete-button:hover{
+  background-color: #920000;
+}
+
+h3{
+  margin: 10px 0;
+}
+
+.seuil-div{
+  display: flex;
+  gap: 15px;
+}
+
+.disabled-submit{
+  cursor : not-allowed;
+  background-color: #969696;
+}
+
+.disabled-submit:hover{
+  background-color: #6b6b6b;
 }

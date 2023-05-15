@@ -36,16 +36,19 @@ app.post('/test', (req, res) => {
   fs.writeFile('shared/tmp.json', JSON.stringify({echantillons , seuil}), err => {
     if (err) throw err;
     console.log('les donnees entrentes ont bien ete ecrites');
-    const python = spawn('py', ['python/main.py']);
+    const python = spawn('python3', ['python/main.py']);
     
 
     python.on('close', code => {
       console.log(`child process close all stdio with code ${code}`);
       fs.readFile('shared/result.json', (err, data) => {
+        console.log('err', err)
         const Data = JSON.parse(data)
         console.log('result from python', Data);
-
-        res.json({ msg: 'success' , data : Data});
+        if(Data.code && Data.code < 0){
+          return res.status(400).json({msg : 'error' , data : Data})
+        }
+        return res.json({ msg: 'success' , data : Data});
       });
     });
   });

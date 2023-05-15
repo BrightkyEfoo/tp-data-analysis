@@ -10,7 +10,6 @@ function App() {
         <h1 className="title">Test de comparaison de variances</h1>
         <div className='sub-title'>
           <h2>Test de comparaison de k variances (k≥2) : Bartlett et Fisher pour des echantillons independants </h2>
-          <p></p>
         </div>
         <div className="main">
                    

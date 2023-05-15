@@ -16,7 +16,7 @@ echantillons = [
 ]
 # Opening JSON file
 
-f = open('../DEV-IN3/data-analysis/backend/shared/tmp.json')
+f = open('./shared/tmp.json')
 data = json.loads(f.read())
 
 for i in data["echantillons"]:
@@ -30,53 +30,85 @@ print(seuil_signification)
 
 k = len(echantillons)
 if k > 2:
-    N = sum([e.taille for e in echantillons])
+    if all(e.taille > 1 for e in echantillons):
+            
+        N = sum([e.taille for e in echantillons])
 
-    variance_p = sum([(e.taille - 1)*e.variance for e in echantillons]) / (N - k)
+        variance_p = sum([(e.taille - 1)*e.variance for e in echantillons]) / (N - k)
 
-    B1 = (N - k)*math.log10(variance_p) - sum([(e.taille - 1)*math.log10(e.variance) for e in echantillons])
+        B1 = (N - k)*math.log10(variance_p) - sum([(e.taille - 1)*math.log10(e.variance) for e in echantillons])
 
-    B2 = 1 + (sum([1/(e.taille - 1) for e in echantillons]) - 1/(N - k)) / (3 * (k - 1))
+        B2 = 1 + (sum([1/(e.taille - 1) for e in echantillons]) - 1/(N - k)) / (3 * (k - 1))
 
-    k_observe = 2.3026 * B1 / B2
+        k_observe = 2.3026 * B1 / B2
 
-    print(f"k observe = {k_observe}")
+        print(f"k observe = {k_observe}")
 
-    k_theorique = khi_deux.cherche_khi_deux(seuil_signification, k - 1)
+        k_theorique = khi_deux.cherche_khi_deux(seuil_signification, k - 1)
 
-    print(f"k theorique = {k_theorique}")
-    accepte = k_observe <= k_theorique
+        print(f"k theorique = {k_theorique}")
+        accepte = k_observe <= k_theorique
 
-    tempstr = "acceptee" if accepte else "rejetee"
+        tempstr = "acceptee" if accepte else "rejetee"
 
-    print(f"Au risque de se tromper de {seuil_signification*100} %, l'on peut dire que l'hypothese H0 est {tempstr}")
-    # Data to be written
-    dictionary = {
-        "kt": k_theorique,
-        "ko": k_observe,
-        "msg": f"Au risque de se tromper de {seuil_signification*100} %, l'on peut dire que l'hypothese H0 est {tempstr}",
-    }
+        print(f"Au risque de se tromper de {seuil_signification*100} %, l'on peut dire que l'hypothese H0 est {tempstr}")
+        # Data to be written
+        dictionary = {
+            "kt": k_theorique,
+            "ko": k_observe,
+            "msg": f"Au risque de se tromper de {seuil_signification*100} %, l'on peut dire que l'hypothese H0 est {tempstr}",
+        }
 
-    with open("../data-analysis/backend/shared/result.json", "w") as outfile:
-        json.dump(dictionary, outfile)
+        with open("./shared/result.json", "w") as outfile:
+            json.dump(dictionary, outfile)
+    else:
+        dictionary = {
+            "code":-1,
+            "msg": f"Tous les echantillons doivent avoir au moins deux elements",
+        }
+
+        with open("./shared/result.json", "w") as outfile:
+            json.dump(dictionary, outfile)
 
 else:
     variances = [echantillons[0].variance,echantillons[1].variance]
-    f_observe = max(variances)/min(variances)
-    f_critique = stats.f.ppf(1-seuil_signification , echantillons[0].taille - 1 , echantillons[0].taille - 1)
-    accepte = f_observe <= f_critique
-    print(f"f observe est : {f_observe}")
-    print(f"f critique est : {f_critique}")
-    tempstr = "accepte" if accepte else "rejetee"
+    if variances[0] == variances[1]:
+        dictionary = {
+            "code":-1,
+            "msg": f"Les deux echantillons ont la meme variance, le test de Fisher ne peut donc etre applique",
+            "variance1": variances[0],
+            "variance2": variances[1]
+        }
 
-    print(f"Au risque de se tromper de {seuil_signification*100} %, l'on peut dire que l'hypothese H0 est {tempstr}")
-    # Data to be written
-    dictionary = {
-        "kt": f_critique,
-        "ko": f_observe,
-        "msg": f"Au risque de se tromper de {seuil_signification*100} %, l'on peut dire que l'hypothese H0 est {tempstr}",
-    }
+        with open("./shared/result.json", "w") as outfile:
+            json.dump(dictionary, outfile)
+    
+    elif min(variances)==0:
+        dictionary = {
+            "code":-1,
+            "msg": f"L'une des variance des echantillons est nulle veuillez verifier vos echantillions",
+            "variance1": variances[0],
+            "variance2": variances[1]
+        }
 
-    with open("../data-analysis/backend/shared/result.json", "w") as outfile:
-        json.dump(dictionary, outfile)
+        with open("./shared/result.json", "w") as outfile:
+            json.dump(dictionary, outfile)
+    else:
+        f_observe = max(variances)/min(variances)
+        f_critique = stats.f.ppf(1-seuil_signification , echantillons[0].taille - 1 , echantillons[0].taille - 1)
+        accepte = f_observe <= f_critique
+        print(f"f observe est : {f_observe}")
+        print(f"f critique est : {f_critique}")
+        tempstr = "accepte" if accepte else "rejetee"
+
+        print(f"Au risque de se tromper de {seuil_signification*100} %, l'on peut dire que l'hypothese H0 est {tempstr}")
+        # Data to be written
+        dictionary = {
+            "kt": f_critique,
+            "ko": f_observe,
+            "msg": f"Au risque de se tromper de {seuil_signification*100} %, l'on peut dire que l'hypothese H0 est {tempstr}",
+        }
+
+        with open("./shared/result.json", "w") as outfile:
+            json.dump(dictionary, outfile)
 

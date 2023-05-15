@@ -18,13 +18,13 @@ const Echantillon : FC<Props> = ({toDelete , index , last , Data , onChange}) =>
     },[data.elements , data.taille])
   return (
     <div className='an-echan'>
-        <input type='number' min={0} placeholder='taille' onChange={e => {
+        <input className='input-de-taille' type='number' min={0} placeholder='taille' onChange={e => {
             setData(prev => {
                 return ({...prev , taille : e.target.valueAsNumber})
             })
         }}/>
         {
-            Array(data.taille || 0).fill(0).map((el , i)=> {
+            Array(Math.floor(data.taille) || 0).fill(0).map((el , i)=> {
                 return <EchantillonCase key={i} index={i} value={data.elements[i]} onChange={(e : ChangeEvent<HTMLInputElement>)=>{
                     setData(prev => {
                         let tmp = {...prev}
@@ -34,10 +34,10 @@ const Echantillon : FC<Props> = ({toDelete , index , last , Data , onChange}) =>
                 }}/>
             })
         }
-        {last && <Button color='secondary' onClick={()=>{
+        {last && <button className='delete-button' onClick={()=>{
             toDelete(index)
             console.log(`index d : ${index}`)
-        }}>delete</Button>}
+        }}>Supprimer l'echantillon</button>}
     </div>
   )
 }
