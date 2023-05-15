@@ -103,6 +103,14 @@
   backdrop-filter: blur(3px);
   z-index: 1000;
 }
+.sub-title{
+  max-width: 600px;
+  margin: 0 auto 15px;
+}
+
+.sub-title > h2{
+  font-size: 1.3rem;
+}
 
 code{
   border : none;
